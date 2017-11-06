@@ -105,7 +105,6 @@ class Host:
 
 ## Implements a multi-interface router described in class
 class Router:
-    
     ##@param name: friendly router name for debugging
     # @param intf_count: the number of input and output interfaces 
     # @param max_queue_size: max queue length (passed to Interface)
