@@ -3,8 +3,8 @@ Created on Oct 12, 2016
 
 @author: mwitt_000
 '''
-import network
-import link
+from src.Network import network_2
+from src.Link import link_2
 import threading
 from time import sleep
 
@@ -14,22 +14,22 @@ simulation_time = 1 #give the network sufficient time to transfer all packets be
 
 if __name__ == '__main__':
     object_L = [] #keeps track of objects, so we can kill their threads
-    
+
     #create network nodes
-    client = network.Host(1)
+    client = network_2.Host(1)
     object_L.append(client)
-    server = network.Host(2)
+    server = network_2.Host(2)
     object_L.append(server)
-    router_a = network.Router(name='A', intf_count=1, max_queue_size=router_queue_size)
+    router_a = network_2.Router(name='A', intf_count=1, max_queue_size=router_queue_size)
     object_L.append(router_a)
-    
+
     #create a Link Layer to keep track of links between network nodes
-    link_layer = link.LinkLayer()
+    link_layer = link_2.LinkLayer()
     object_L.append(link_layer)
-    
+
     #add all the links
-    link_layer.add_link(link.Link(client, 0, router_a, 0, 50))
-    link_layer.add_link(link.Link(router_a, 0, server, 0, 50))
+    link_layer.add_link(link_2.Link(client, 0, router_a, 0, 50))
+    link_layer.add_link(link_2.Link(router_a, 0, server, 0, 50))
     
     
     #start all the objects
@@ -45,8 +45,8 @@ if __name__ == '__main__':
     
     
     #create some send events    
-    for i in range(3):
-        client.udt_send(2, 'Sample data %d' % i)
+    client.udt_send(2, 'Sample data must be longer then 80 characters so we added this additional text to achieve that requirement.',
+                    link_layer.link_L[1].mtu)
     
     
     #give the network sufficient time to transfer all packets before quitting
