@@ -114,6 +114,7 @@ class Host:
     # @param dst_addr: destination address for the packet
     # @param data_S: data being transmitted to the network layer
     def udt_send(self, dst_addr, data_S, maxMTU):
+
         if len(data_S) > maxMTU:
             first_part, second_part = data_S[0:int(len(data_S) / 2)], data_S[int(len(data_S) / 2):]
             p1 = NetworkPacket(dst_addr, first_part)
@@ -122,6 +123,7 @@ class Host:
             p2 = NetworkPacket(dst_addr, second_part)
             self.out_intf_L[0].put(p2.to_byte_S())  # send packets always enqueued successfully
             print('%s: sending packet "%s"' % (self, p2))
+
         else:
             p = NetworkPacket(dst_addr, data_S)
             self.out_intf_L[0].put(p.to_byte_S()) # send packets always enqueued successfully
